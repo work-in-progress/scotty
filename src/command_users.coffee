@@ -7,7 +7,7 @@ class exports.CommandUsers
     'login',
     'logout',
     'changepassword',
-    'invitationkey']
+    'redeem']
 
   usage :
     'default' : [] 

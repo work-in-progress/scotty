@@ -30,7 +30,7 @@ class exports.ScottyApp
     Special -v command for showing current version without winston formatting
     ###
     if argv.version || argv.v
-        console.log('v' + @version)
+        console.log('using scotty v' + @version)
         process.exit(0);
 
     @prompt.start().pause();
@@ -42,6 +42,5 @@ class exports.ScottyApp
       return cb(err) if err?
       
       
-      @commands['help'].show null,=>
-        @prompt.get (cb) =>
-          winston.log "Prompted"
+      @commands['help'].show null, =>
+ 

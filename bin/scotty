@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-// Code based on nodejitsu's jitsu
 
 var scotty = require('../lib/index'),
 		eyes = require('eyes'),

@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+var ScottyApp = require('../lib/index').ScottyApp;
+var scotty = new ScottyApp();
+scotty.start();

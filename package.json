@@ -1,13 +1,13 @@
 {
   "author": "Martin Wawrusch <martin@wawrusch.com> (http://martinatsunset.com)",
-  "name": "scottyapp",
-  "description": "Create your application backends in minutes.",
+  "name": "scotty",
+  "description": "Create your scottyapp.com application backends in minutes.",
   "version": "0.0.1",
   "main" : "lib/index.js",
   "preferGlobal" : true,
   "repository": {
     "type": "git",
-    "url": "git://github.com/scottyapp/scottyapp.git"
+    "url": "git://github.com/scottyapp/scotty.git"
   },
   "bin" : {
   },
@@ -18,7 +18,7 @@
   },
   "keywords" : [
     "scottyapp","backend","mobile","api","cloud","cli","platform-as-a-service",
-        "deployment"
+        "deployment","scotty","rest","restful","mongodb"
   ],
   "scripts": {
     "test": "node_modules/.bin/vows --spec spec/*-spec.coffee",
@@ -45,10 +45,10 @@
     "coffee-script" : ">= 1.1.2",
     "vows" : ">= 0.5.9"
   },
-  "bugs": { "url": "http://github.com/scottyapp/scottyapp/issues" },
+  "bugs": { "url": "http://github.com/scottyapp/scotty/issues" },
   "licenses": [
     { "type": "MIT",
-      "url": "http://github.com/scottyapp/scottyapp/raw/master/LICENSE"
+      "url": "http://github.com/scottyapp/scotty/raw/master/LICENSE"
     }
   ]
 }

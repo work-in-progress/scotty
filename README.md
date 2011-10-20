@@ -2,11 +2,11 @@
 
 ScottyApp automates the creation and management of your application backends. You define entities and behavior, either through the command line or on http://scottyapp.com, and ScottyApp takes care of the rest.
 
-[![Build Status](https://secure.travis-ci.org/scottyapp/scottyapp.png)](http://travis-ci.org/scottyapp/scottyapp.png)
+[![Build Status](https://secure.travis-ci.org/scottyapp/scotty.png)](http://travis-ci.org/scottyapp/scotty.png)
 
 # Install
 
-npm install -g scottyapp
+npm install -g scotty
 
 ## Usage
 

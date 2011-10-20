@@ -1,19 +1,13 @@
+###*
+Parts modeled after Nodejitsu's jitsu
+###
 
+
+ScottyApp = require('./scotty').ScottyApp
 color = require 'colors'
 _ = require "underscore"
+eyes = require 'eyes'
+winston = require 'winston'
 
-
+scotty = module.exports = new ScottyApp()
 require('pkginfo')(module,'version')
-
-###*
-Encapsulates the primary functionality for this module.
-###
-class exports.ScottyApp
-
-  ###*
-  Initializes a new instance of the @see ScottyApp class.
-  ###
-  constructor: (opts = {}) ->
-
-  start: () ->
-    console.log "ScottyApp"

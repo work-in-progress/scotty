@@ -1,7 +1,7 @@
 colors = require 'colors'
 winston = require 'winston'
     
-class exports.CommandUsers
+class exports.Commands
   actions : [
     'create',
     'login',
@@ -17,13 +17,24 @@ class exports.CommandUsers
     'changepassword' : []
     'invitationkey' : []
     
-    
+  constructor: (@prompt,@config) ->
+  
   create: (cb) ->
+    cb(null)
     
   logout: (cb) ->
+    cb(null)
   
-  login: (cb) ->
+  login: (cb) =>
+    @prompt.get 'username', (err, resultA) =>
+      @prompt.get 'password', (err, resultB) =>
+    
+        winston.info "LOGIN #{resultA.username} #{resultB.password}"
+        cb(null)
     
   changepassword: (cb) ->
+    cb(null)
   
   invitationkey: (cb) ->
+    cb(null)
+    

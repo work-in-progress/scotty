@@ -1,7 +1,7 @@
 colors = require 'colors'
 winston = require 'winston'
     
-class exports.CommandHelp
+class exports.Commands
   
   actions : [
     'show']

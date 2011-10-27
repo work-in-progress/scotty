@@ -1,7 +1,7 @@
 colors = require 'colors'
 winston = require 'winston'
     
-class exports.CommandApps
+class exports.Commands
   actions : [
     'create',
     'delete',
@@ -14,8 +14,11 @@ class exports.CommandApps
     'list' : []
 
   create: (cb) ->
+    cb(null)
 
   delete: (cb) ->
+    cb(null)
 
   list: (cb) ->
+    cb(null)
 

@@ -28,9 +28,15 @@ class exports.Commands
   login: (cb) =>
     @prompt.get 'username', (err, resultA) =>
       @prompt.get 'password', (err, resultB) =>
-    
-        winston.info "LOGIN #{resultA.username} #{resultB.password}"
-        cb(null)
+        @client.authenticate resultA.username,resultB.password, (err,result) =>
+          if err
+            winston.error "Login failed"
+            cb(err)
+          else
+            @client.setAccessToken result.access_token
+            @config.setAccessToken result.access_token, =>
+              winston.info "Logged in successfully"
+              cb null
     
   changepassword: (cb) ->
     cb(null)

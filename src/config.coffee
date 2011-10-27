@@ -20,5 +20,13 @@ class Config
   key: "4ea27b3dbab23e0001000002"
   secret: "12eba4683b5c1b014b114463afed70f036dbeea6951b092346b6b58ddfff524f"
   
+  setAccessToken: (token,cb) =>
+    nconf.set "accessToken",token
+    nconf.save cb
+  
+  getAccessToken: () =>
+    nconf.get "accessToken"
+    
+    
 module.exports = new Config()
     

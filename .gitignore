@@ -2,3 +2,5 @@ node_modules
 config.json
 tmp
 *.log
+.scottyconf.json
+.DS_Store

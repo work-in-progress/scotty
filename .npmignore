@@ -4,3 +4,4 @@ assets_source
 tmp
 config.json
 .DS_Store
+.scottyconf.json

@@ -16,6 +16,8 @@ class exports.ScottyApp
   started: false
   
   prompt: require 'prompt'
+  config: require './config'
+  
   commands:
     help : new (require('./command_help').CommandHelp)()
       
@@ -38,9 +40,13 @@ class exports.ScottyApp
     # Default to the `help` command.
     @command[0] || (@command[0] = 'help')
 
-    utils.checkVersion (err) =>
+    @config.load (err) =>
+      #winston.info err
       return cb(err) if err?
       
+      utils.checkVersion (err) =>
+        return cb(err) if err?
       
-      @commands['help'].show null, =>
+      
+        @commands['help'].show null, =>
  

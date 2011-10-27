@@ -34,11 +34,12 @@
     "pkginfo" : "~ 0.2",
     "cliff": "0.1.x",
     "eyes": "0.1.x",
-    "nconf": "0.2.x",
     "optimist": "0.2.x",
     "prompt": "0.1.x >=0.1.7",
     "request": "2.1.x",
-    "winston": "0.5.x"  
+    "winston": "0.5.x",
+    "nconf" : "0.4.x",
+    "scottyapp-api-client" : "0.0.x"
   },
   "devDependencies": {
     "should" : ">=0.2.1",    

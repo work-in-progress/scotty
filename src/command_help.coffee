@@ -4,10 +4,10 @@ winston = require 'winston'
 class exports.Commands
   
   actions : [
-    'show']
+    'help']
 
   usage :
-    'default' : [
+    'help' : [
       '  _|_|_|                        _|      _|              '.yellow.bold
       '_|          _|_|_|    _|_|    _|_|_|_|_|_|_|_|  _|    _|'.yellow.bold 
       '  _|_|    _|        _|    _|    _|      _|      _|    _|'.yellow.bold
@@ -64,10 +64,16 @@ class exports.Commands
       '--version             print scotty version and exit'] 
     'show' : []
 
-  show: (action,cb) ->
+  help: (args,cb) =>
 
-    winston.help ''
-    winston.help l for l in @usage['default']
-    winston.help ''
-  
-    cb null
+    usage = 'help'
+    if args.length > 0 && @loader.hasAction(args[0])
+      usage = args[0]
+
+    @loader.getActionUsage usage, (err,usageResult) =>
+      if err
+        winston.help "Command #{usage} not found. Try scotty help."
+        cb err
+      else      
+        winston.help l for l in usageResult
+        cb null

@@ -10,22 +10,26 @@ class exports.Commands
     'redeem']
 
   usage :
-    'default' : [] 
     'create' : []
-    'login' : []
+    'login' : [
+      'Usage:'.cyan.bold.underline,
+      ''
+      '  scotty login'
+      '  scotty login username password'
+      ''      
+    ]
     'logout' : []
     'changepassword' : []
     'invitationkey' : []
     
-  constructor: (@prompt,@config) ->
   
-  create: (cb) ->
+  create: (args,cb) =>
     cb(null)
     
-  logout: (cb) ->
+  logout: (args,cb) =>
     cb(null)
   
-  login: (cb) =>
+  login: (args,cb) =>
     @prompt.get 'username', (err, resultA) =>
       @prompt.get 'password', (err, resultB) =>
         @client.authenticate resultA.username,resultB.password, (err,result) =>
@@ -38,9 +42,9 @@ class exports.Commands
               winston.info "Logged in successfully"
               cb null
     
-  changepassword: (cb) ->
+  changepassword: (args,cb) =>
     cb(null)
   
-  invitationkey: (cb) ->
+  invitationkey: (args,cb) =>
     cb(null)
     

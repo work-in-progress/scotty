@@ -8,17 +8,16 @@ class exports.Commands
     'list']
 
   usage :
-    'default' : [] 
     'create' : []
     'delete' : []
     'list' : []
 
-  create: (cb) ->
+  create: (args,cb) =>
     cb(null)
 
-  delete: (cb) ->
+  delete: (args,cb) =>
     cb(null)
 
-  list: (cb) ->
+  list: (args,cb) =>
     cb(null)
 

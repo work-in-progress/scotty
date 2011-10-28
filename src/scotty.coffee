@@ -22,10 +22,6 @@ class exports.ScottyApp
   loader: new (require('./command_loader').CommandLoader)()
   client: null
   
-  commands:
-    help : new (require('./command_help').Commands)()
-    login : new (require('./command_users').Commands)(@prompt,@config)
-
   constructor: () ->
     @client = new ScottyAppClient(@config.key,@config.secret)
     @prompt.properties = require('./prompt_properties').properties;
@@ -34,14 +30,8 @@ class exports.ScottyApp
   start: (argv, cb) ->
     @command = argv._;
     
-    @loader.load(['./command_help','./command_apps','./command_users'])
+    @loader.load(['./command_help','./command_apps','./command_users'],@prompt,@config,@client)
     
-    @commands.help.prompt = @prompt
-    @commands.help.config = @config
-    @commands.login.prompt = @prompt
-    @commands.login.config = @config
-    @commands.login.client = @client
-
     ### 
     Special -v command for showing current version without winston formatting
     ###
@@ -53,6 +43,7 @@ class exports.ScottyApp
 
     # Default to the `help` command.
     @command[0] = @command[0] || 'help'
+    args = if @command.length > 1 then @command.slice(1) else []
     
     @config.load (err) =>
       #winston.info err
@@ -61,7 +52,15 @@ class exports.ScottyApp
       utils.checkVersion (err) =>
         return cb(err) if err?
       
-        lib = @commands[@command[0]]
-        func =  lib[@command[0]]
-        func =>
-          winston.info "Thank you for using scottyapp"
+        @loader.getActionFn @command[0], (err,actionFn) =>
+          if err
+            winston.error "Command not found. Try scotty help"
+          else
+            actionFn args,=>
+              winston.info "Thank you for using scotty"
+            
+          #lib = @commands[@command[0]]
+          #func =  lib[@command[0]]
+          #func =>
+          #  winston.info "Thank you for using scottyapp"
+          

@@ -46,6 +46,8 @@ class exports.ScottyApp
     args = if @command.length > 1 then @command.slice(1) else []
     
     @config.load (err) =>
+      @client.setAccessToken @config.getAccessToken()
+      
       #winston.info err
       return cb(err) if err?
       
@@ -57,7 +59,7 @@ class exports.ScottyApp
             winston.error "Command not found. Try scotty help"
           else
             actionFn args,=>
-              winston.info "Thank you for using scotty"
+              #winston.info ""
             
           #lib = @commands[@command[0]]
           #func =  lib[@command[0]]

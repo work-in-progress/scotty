@@ -2,6 +2,8 @@ colors = require 'colors'
 winston = require 'winston'
     
 class exports.Commands
+  resource : 'users'
+  
   actions : [
     'create',
     'login',
@@ -10,24 +12,57 @@ class exports.Commands
     'redeem']
 
   usage :
-    'create' : []
+    'create' : [
+      'Usage:'.cyan.bold.underline,
+      ''
+      '  scotty create'
+      '  scotty create <username> <password> <email>'
+      ''
+      'Creates a new user within scottyapp.com. You can also create a'
+      'user directly on http://scottyapp.com'      
+    ]
     'login' : [
       'Usage:'.cyan.bold.underline,
       ''
       '  scotty login'
-      '  scotty login username password'
-      ''      
+      '  scotty login <username> <password>'
+      ''
+      'Attempts to log you in. When successful, stores the access token'
+      'in .scottyconf.json. As of now this is stored in the current directory.'
     ]
-    'logout' : []
-    'changepassword' : []
-    'invitationkey' : []
+    'logout' : [
+      'Usage:'.cyan.bold.underline,
+      ''
+      '  scotty logout'
+      ''      
+      'Removes the access token information stored in .scottyconf.json' 
+      ]
+    'changepassword' : [
+      'Usage:'.cyan.bold.underline,
+      ''
+      '  scotty changepassword'
+      '  scotty changepassword <oldPassword> <newPassword>'
+      ''      
+      'Changes the password for the currently logged in user.' 
+      ]
+    'redeem' : [
+      'Usage:'.cyan.bold.underline,
+      ''
+      '  scotty redeem'
+      '  scotty redeem <yourkey>'
+      ''      
+      'Validates your beta invitation key.' 
+      ]
     
   
   create: (args,cb) =>
     cb(null)
     
   logout: (args,cb) =>
-    cb(null)
+    @client.setAccessToken null
+    @config.setAccessToken null, =>
+      winston.info "Logged OUT"
+      cb null
   
   login: (args,cb) =>
     @prompt.get 'username', (err, resultA) =>
@@ -45,6 +80,6 @@ class exports.Commands
   changepassword: (args,cb) =>
     cb(null)
   
-  invitationkey: (args,cb) =>
+  redeem: (args,cb) =>
     cb(null)
     

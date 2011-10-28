@@ -49,8 +49,8 @@ class exports.Commands
       '  scotty list'
       '',
       'To show specific help'.cyan
-      '  scotty help resource'
-      '  scotty help resource action'
+      '  scotty help <resource>'
+      '  scotty help <resource> <action>'
       ''
 
       'Additional Commands'.cyan.bold.underline
@@ -75,5 +75,7 @@ class exports.Commands
         winston.help "Command #{usage} not found. Try scotty help."
         cb err
       else      
+      winston.help ''
         winston.help l for l in usageResult
+        winston.help ''
         cb null

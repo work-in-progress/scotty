@@ -3,6 +3,7 @@ winston = require 'winston'
     
 class exports.Commands
   resource : 'users'
+  defaultAction: 'login'
   
   actions : [
     'signup',

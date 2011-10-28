@@ -48,21 +48,39 @@ class exports.ScottyApp
     @config.load (err) =>
       @client.setAccessToken @config.getAccessToken()
       
-      #winston.info err
       return cb(err) if err?
       
       utils.checkVersion (err) =>
         return cb(err) if err?
+
+        resource = @command[0]
+        action = null
+
+        if @loader.isResource(@command[0])
+          #winston.info " IS A RESOURCE"
+          if @command.length > 1 && @loader.isActionForResource(@command[0],@command[1])
+            action = @command[1]
+            args = if @command.length > 2 then @command.slice(2) else []
+            
+          else
+            action = @loader.defaultActionForResource(@command[0])
+        else
+          # first parameter is an action.
+          resource = @loader.resourceforAction(@command[0])
+          action = @command[0]
+          
+        #winston.info "RESOURCE #{resource} ACTION #{action}"
+        # At this point we need to have 
+        if resource == null || action == null
+          winston.error "Command not found. Try " + "scotty help".cyan.bold
+          return
+          
       
-        @loader.getActionFn @command[0], (err,actionFn) =>
+        @loader.getActionFn resource,action, (err,actionFn) =>
           if err
-            winston.error "Command not found. Try scotty help"
+            winston.error "Command not found. Try " + "scotty help".cyan.bold
           else
             actionFn args,=>
               #winston.info ""
             
-          #lib = @commands[@command[0]]
-          #func =  lib[@command[0]]
-          #func =>
-          #  winston.info "Thank you for using scottyapp"
           

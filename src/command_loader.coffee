@@ -1,14 +1,37 @@
 colors = require 'colors'
 winston = require 'winston'
-    
+
+###*
+Loads the commands and makes them available. Is a bit of a mess right now, 
+needs some love and improvement.
+###
 class exports.CommandLoader
   resourceNames: {}
   
   addCommand: (cmd,action,name) =>
     @commands[name] = 
      resource : cmd
+     resourceName : cmd.resource
      action : action
      usage : cmd.usage[action] || []
+  
+  isResource: (name) =>
+    !!@resourceNames[name]
+    
+  resourceforAction: (actionName) =>
+    res = @commands[actionName]
+    return null if res == "DONOTCALL"
+    return null unless res
+    res.resourceName
+    
+  defaultActionForResource: (resourceName) =>
+    if @commands[resourceName] then @commands[resourceName].action else null
+    
+  isActionForResource: (resourceName,actionName) =>
+    @commands[resourceName] && @commands[resourceName].resource.actions[actionName]
+  
+  nameFrom:(resourceName,actionName) =>
+    "#{resourceName}-#{actionName}"
   
   load: (commandsToRequire,prompt,config,client) =>
     @commands = {}
@@ -20,18 +43,14 @@ class exports.CommandLoader
        cmd.client = client
        cmd.loader = @
        
+       #winston.info cmd.resource
        @resourceNames[cmd.resource] = cmd.resource 
        
        for action in cmd.actions
          # First we add the command as the canonical resource-action combination,
          # like help-show or apps-list
-         @addCommand cmd,action,"#{cmd.resource}-#{action}"
-         
-         #@commands["#{cmd.resource}-#{action}"] = 
-         # resource : cmd
-         # action : action
-         # usage : cmd.usage[action] || []
-          
+         @addCommand cmd,action,@nameFrom(cmd.resource,action)
+                   
          # Now we add it as the action name, but only if it does not exist
          # if it exists we should mark it as do not call.
          if @commands[action]
@@ -44,18 +63,13 @@ class exports.CommandLoader
          if cmd.defaultAction && cmd.defaultAction == action
            @addCommand cmd,action,cmd.resource
            
-           #@commands["#{cmd.resource}"] = 
-           #  resource : cmd
-           # action : action
-           #  usage : cmd.usage[action] || []
-           
   
   hasAction: (actionName) =>
     !!@commands[actionName]
     
-  getActionFn: (actionName,cb) =>
-    action = @commands[actionName]
-    return cb(new Error("Action #{actionName} not found.")) unless action
+  getActionFn: (resourceName,actionName,cb) =>
+    action = @commands[@nameFrom(resourceName,actionName)]
+    return cb(new Error("#{resourceName} #{actionName} not found.")) unless action
     cb(null,action.resource[actionName])
   
   getActionUsage: (actionName,cb) =>

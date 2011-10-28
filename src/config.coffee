@@ -27,6 +27,18 @@ class Config
   getAccessToken: () =>
     nconf.get "accessToken"
     
+  getUserName: () =>
+    nconf.get "userName"
+
+  setUserName: (userName,cb) =>
+    nconf.set "userName",userName
+    nconf.save cb
+    
+  set: (token,userName,cb) =>
+    nconf.set "accessToken",token
+    nconf.set "userName",userName
+    nconf.save cb
+    
     
 module.exports = new Config()
     

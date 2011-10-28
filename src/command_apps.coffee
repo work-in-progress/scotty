@@ -22,5 +22,13 @@ class exports.Commands
     cb(null)
 
   list: (args,cb) =>
-    cb(null)
+    organizationName = args[0] || @config.getUserName()
+    @client.appsForOrganization organizationName, (err,result) =>
+      if err
+        winston.error "Login failed"
+        cb(err)
+      else
+        for app in result.collection
+          winston.info "#{app.name}"
+          cb null
 

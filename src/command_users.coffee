@@ -61,7 +61,7 @@ class exports.Commands
     
   logout: (args,cb) =>
     @client.setAccessToken null
-    @config.setAccessToken null, =>
+    @config.set null,null, =>
       winston.info "Logged out "+ "successfully".cyan.bold
       cb null
   
@@ -74,7 +74,7 @@ class exports.Commands
             cb(err)
           else
             @client.setAccessToken result.access_token
-            @config.setAccessToken result.access_token, =>
+            @config.set result.access_token,resultA.username, =>
               winston.info "Logged in " + "successfully".cyan.bold
               cb null
     

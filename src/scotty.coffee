@@ -48,6 +48,8 @@ class exports.ScottyApp
     @config.load (err) =>
       @client.setAccessToken @config.getAccessToken()
       
+      #winston.info @client.accessToken
+      
       return cb(err) if err?
       
       utils.checkVersion (err) =>

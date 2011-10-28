@@ -5,18 +5,18 @@ class exports.Commands
   resource : 'users'
   
   actions : [
-    'create',
+    'signup',
     'login',
     'logout',
     'changepassword',
     'redeem']
 
   usage :
-    'create' : [
+    'signup' : [
       'Usage:'.cyan.bold.underline,
       ''
-      '  scotty create'
-      '  scotty create <username> <password> <email>'
+      '  scotty signup'
+      '  scotty signup <username> <password> <email>'
       ''
       'Creates a new user within scottyapp.com. You can also create a'
       'user directly on http://scottyapp.com'      
@@ -41,7 +41,7 @@ class exports.Commands
       'Usage:'.cyan.bold.underline,
       ''
       '  scotty changepassword'
-      '  scotty changepassword <oldPassword> <newPassword>'
+      '  scotty changepassword <newPassword>'
       ''      
       'Changes the password for the currently logged in user.' 
       ]
@@ -61,7 +61,7 @@ class exports.Commands
   logout: (args,cb) =>
     @client.setAccessToken null
     @config.setAccessToken null, =>
-      winston.info "Logged OUT"
+      winston.info "Logged out "+ "successfully".cyan.bold
       cb null
   
   login: (args,cb) =>
@@ -74,7 +74,7 @@ class exports.Commands
           else
             @client.setAccessToken result.access_token
             @config.setAccessToken result.access_token, =>
-              winston.info "Logged in successfully"
+              winston.info "Logged in " + "successfully".cyan.bold
               cb null
     
   changepassword: (args,cb) =>

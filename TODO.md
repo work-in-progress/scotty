@@ -1,10 +1,12 @@
 ## todo for 0.0.1
 
-* handle authentication error => PRompt for login
-* help on actions
 * default ops for apps, users?
 * handle action call
+
+* handle authentication error => PRompt for login
+* help on actions
 * resend password (api and all)
+* organizations
 
 * signup
 * beta key

@@ -3,11 +3,14 @@ winston = require 'winston'
     
 class exports.Commands
   
+  resource : 'help'
+  defaultAction : 'show'
+  
   actions : [
-    'help']
+    'show']
 
   usage :
-    'help' : [
+    'show' : [
       '  _|_|_|                        _|      _|              '.yellow.bold
       '_|          _|_|_|    _|_|    _|_|_|_|_|_|_|_|  _|    _|'.yellow.bold 
       '  _|_|    _|        _|    _|    _|      _|      _|    _|'.yellow.bold
@@ -64,7 +67,7 @@ class exports.Commands
       '--version             print scotty version and exit'] 
     'show' : []
 
-  help: (args,cb) =>
+  show: (args,cb) =>
 
     usage = 'help'
     if args.length > 0 && @loader.hasAction(args[0])

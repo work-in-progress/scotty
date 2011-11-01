@@ -28,9 +28,12 @@ class exports.CommandLoader
   defaultActionForResource: (resourceName) =>
     if @commands[resourceName] then @commands[resourceName].action else null
     
+  ###*
+  Returns true if the specified action exists for the resource.
+  ###
   isActionForResource: (resourceName,actionName) =>
-    !!(@commands[resourceName] && @commands[resourceName].resource.actions[actionName])
-  
+    !!@commands[@nameFrom(resourceName,actionName)]
+      
   nameFrom:(resourceName,actionName) =>
     "#{resourceName}-#{actionName}"
   

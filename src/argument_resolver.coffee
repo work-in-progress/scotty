@@ -55,15 +55,18 @@ class exports.ArgumentResolver
   @param {String[]}  args the arguments as taken from the command line
   @param {CommandLoader} loader the loader object used to resolve commands
   ###
-  constructor: (@args, @loader) ->
-    _resolve()
+  constructor: (@args = [], @loader) ->
+    @_resolve()
     
   _resolve: () =>
     
     # Default to the `help` command.
     @args[0] = @args[0] || 'help'
     @params = if @args.length > 1 then @args.slice(1) else []
+    @args[0] = @args[0].toLowerCase()
     
+    if @args[0] == "help"
+      @isHelp = true
     
     if @loader.isResource(@args[0])
       #winston.info " IS A RESOURCE"

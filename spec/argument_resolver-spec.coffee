@@ -29,26 +29,56 @@ resource action data
 vows.describe("argument_resolver")
   .addBatch
     "CLEANUP TEMP":
-      topic: () ->
+      topic: ->
         specHelper.cleanTmpFiles []
       "THEN IT SHOULD BE CLEAN :)": () ->
         assert.isTrue true        
   .addBatch
     "SETUP" :
-      topic: () -> 
+      topic: -> 
         specHelper.setup @callback
         return
       "THEN IT SHOULD BE SET UP :)": () ->
         assert.isTrue true        
   .addBatch
-    "WHEN dealing with a valid action only" :
-      topic: () ->
-        return cmdLoader.hasAction("help")
-      "THEN it should be true": (res) ->
-        assert.isTrue res
-    "WHEN dealing with an invalid action only" :
-      topic: () ->
-        return cmdLoader.hasAction("frodo")
-      "THEN it should be true": (res) ->
-        assert.isFalse res
+    "WHEN resolving an empty argument list" :
+      topic: ->        
+        return new ArgumentResolver(null,cmdLoader)
+      "THEN it should be marked as help": (resolver) ->
+        assert.isTrue resolver.isHelp
+      "THEN it's resource should be null": (resolver) ->
+        assert.isNull resolver.resource
+      "THEN it's action should be null": (resolver) ->
+        assert.isNull resolver.action
+      "THEN it's error message should be an empty string": (resolver) ->
+        assert.equal resolver.errorMsg, ""
+      "THEN it should be marked as valid": (resolver) ->
+        assert.isTrue resolver.isValid
+      "THEN it's params should have a length 0": (resolver) ->
+        assert.equal resolver.params.length,0
+    "WHEN resolving an empty argument list with a single help" :
+      topic: ->        
+        return new ArgumentResolver(["help"],cmdLoader)
+      "THEN it should be marked as help": (resolver) ->
+        assert.isTrue resolver.isHelp
+    "WHEN resolving an empty argument list with a help and a resource" :
+      topic: ->        
+        return new ArgumentResolver(["help","apps"],cmdLoader)
+      "THEN it should be marked as help": (resolver) ->
+        assert.isTrue resolver.isHelp
+    "WHEN resolving an empty argument list with a help and a resource and an action" :
+      topic: ->        
+        return new ArgumentResolver(["help","apps","create"],cmdLoader)
+      "THEN it should be marked as help": (resolver) ->
+        assert.isTrue resolver.isHelp
+    "WHEN resolving an empty argument list with a help and an unambigous action" :
+      topic: ->        
+        return new ArgumentResolver(["help","login"],cmdLoader)
+      "THEN it should be marked as help": (resolver) ->
+        assert.isTrue resolver.isHelp
+    "WHEN resolving an empty argument list with a help and an ambigous action" :
+      topic: ->        
+        return new ArgumentResolver(["help","create"],cmdLoader)
+      "THEN it should be marked as help": (resolver) ->
+        assert.isTrue resolver.isHelp
   .export module

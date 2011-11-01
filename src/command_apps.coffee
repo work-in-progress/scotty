@@ -13,7 +13,17 @@ class exports.Commands
   usage :
     'create' : []
     'delete' : []
-    'list' : []
+    'list' : [
+      'Usage:'.cyan.bold.underline,
+      ''
+      '  scotty apps list'
+      '  scotty apps list <organization name>'
+      ''
+      'Lists all apps for the specified organization, or if none is specified'
+      'then the default organization belonging to the logged in user.'
+      'Apps are always grouped by organization, and each user gets a default'
+      'organization named after his user id uppon account creation.'      
+      ]
 
   create: (args,cb) =>
     cb(null)
@@ -22,8 +32,7 @@ class exports.Commands
     cb(null)
 
   list: (args,cb) =>
-    # args[0] ||
-    organizationName = @config.getUserName()
+    organizationName = args[1] || @config.getUserName()
     @client.appsForOrganization organizationName, (err,result) =>
       if err
         winston.error "Login failed"

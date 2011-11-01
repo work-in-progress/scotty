@@ -4,7 +4,7 @@ path = require 'path'
 class Config
   constructor: () ->
     nconf.argv = nconf.env = true
-    nconf.add('file', { file: '.scottyconf.json' });
+    nconf.add('file', { file: process.env.HOME + '/.scottyconf.json' });
   
   load: (cb) ->
     nconf.load (err) =>

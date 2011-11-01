@@ -81,8 +81,14 @@ class exports.CommandLoader
     
   getActionFn: (resourceName,actionName,cb) =>
     action = @commands[@nameFrom(resourceName,actionName)]
-    return cb(new Error("#{resourceName} #{actionName} not found.")) unless action
-    cb(null,action.resource[actionName])
+    
+    res = action.resource[actionName] if action
+
+    #console.log res
+
+    return cb(new Error("#{resourceName} #{actionName} not found.")) unless action && res
+    
+    cb null,res
   
   getActionUsage: (actionName,cb) =>
     action = @commands[actionName]

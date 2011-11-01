@@ -32,6 +32,7 @@ class exports.ScottyApp
     @prompt.properties = require('./prompt_properties').properties;
     @prompt.override   = require('optimist').argv;
     
+    
   start: (argv, cb) ->
     ### 
     Special -v command for showing current version without winston formatting
@@ -65,49 +66,14 @@ class exports.ScottyApp
           @loader.getActionFn resource,action, (err,actionFn) =>
             if err
               winston.error "Command not found. Try " + "scotty help".cyan.bold
-            else
+            else        
               actionFn argumentResolver,=>
                 #winston.info ""
         else
           winston.error "Command not found. Try " + "scotty help".cyan.bold
         
 
-###
-        @command = argv._;    
-        # Default to the `help` command.
-        @command[0] = @command[0] || 'help'
-        args = if @command.length > 1 then @command.slice(1) else []
-
-        resource = @command[0]
-        action = null
-
-        if @loader.isResource(@command[0])
-          #winston.info " IS A RESOURCE"
-          if @command.length > 1 && @loader.isActionForResource(@command[0],@command[1])
-            action = @command[1]
-            args = if @command.length > 2 then @command.slice(2) else []
-            
-          else
-            action = @loader.defaultActionForResource(@command[0])
-        else
-          # first parameter is an action.
-          resource = @loader.resourceforAction(@command[0])
-          action = @command[0]
-          
-        #winston.info "RESOURCE #{resource} ACTION #{action}"
-        # At this point we need to have 
-        if resource == null || action == null
-          winston.error "Command not found. Try " + "scotty help".cyan.bold
-          return
-
-        @loader.getActionFn resource,action, (err,actionFn) =>
-          if err
-            winston.error "Command not found. Try " + "scotty help".cyan.bold
-          else
-            actionFn args,=>
-              #winston.info ""
-
-###          
+   
       
             
           

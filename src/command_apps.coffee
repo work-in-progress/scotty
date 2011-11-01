@@ -11,8 +11,25 @@ class exports.Commands
     'list']
 
   usage :
-    'create' : []
-    'delete' : []
+    'create' : [
+      'Usage:'.cyan.bold.underline,
+      ''
+      '  scotty apps create'
+      '  scotty apps create <app name>'
+      '  scotty apps create <organization name> <app name>'
+      ''
+      'Creates a new app that belongs to the user\'s default organization'
+      'or the organization specified.'      
+      ]
+    'delete' : [
+      'Usage:'.cyan.bold.underline,
+      ''
+      '  scotty apps delete'
+      '  scotty apps delete <app name>'
+      '  scotty apps delete <organization name> <app name>'
+      ''
+      'Deletes an app that belongs to the current user or the organization'            
+      ]
     'list' : [
       'Usage:'.cyan.bold.underline,
       ''
@@ -26,7 +43,21 @@ class exports.Commands
       ]
 
   create: (argumentResolver,cb) =>
-    cb(null)
+    appName = argumentResolver.params[0]
+    organizationName = @config.getUserName()
+    
+    if argumentResolver.params.length > 1
+      organizationName = argumentResolver.params[0]
+      appName = argumentResolver.params[1]
+
+    @client.createApp organizationName,appName,"",false, (err,result) =>
+      if err
+        winston.error "Could not create app #{err}"
+        cb(err)
+      else
+        winston.info "App created"
+        cb null
+
 
   delete: (argumentResolver,cb) =>
     cb(null)

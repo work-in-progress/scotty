@@ -117,5 +117,63 @@ vows.describe("command_loader")
         assert.isTrue cmdLoader.isAmbiguousAction("list")
       "THEN it signup should result in true": (res) ->
         assert.isFalse cmdLoader.isAmbiguousAction("signup")
+    "WHEN testing getActionFn for users signup" :
+      topic: () ->
+        cmdLoader.getActionFn("users","signup",@callback)
+        return
+      "THEN it should not err": (err,res) ->
+        assert.isNull err
+      "THEN it should return a function": (err,res) ->
+        assert.isNotNull res
+    "WHEN testing getActionFn for apps create" :
+      topic: () ->
+        cmdLoader.getActionFn("apps","create",@callback)
+        return
+      "THEN it should not err": (err,res) ->
+        assert.isNull err
+      "THEN it should return a function": (err,res) ->
+        assert.isNotNull res
+    "WHEN testing getActionFn for orgs create" :
+      topic: () ->
+        cmdLoader.getActionFn("orgs","create",@callback)
+        return
+      "THEN it should not err": (err,res) ->
+        assert.isNull err
+      "THEN it should return a function": (err,res) ->
+        assert.isNotNull res
+
+    "WHEN testing getActionFn for apps delete" :
+      topic: () ->
+        cmdLoader.getActionFn("apps","delete",@callback)
+        return
+      "THEN it should not err": (err,res) ->
+        assert.isNull err
+      "THEN it should return a function": (err,res) ->
+        assert.isNotNull res
+    "WHEN testing getActionFn for orgs delete" :
+      topic: () ->
+        cmdLoader.getActionFn("orgs","delete",@callback)
+        return
+      "THEN it should not err": (err,res) ->
+        assert.isNull err
+      "THEN it should return a function": (err,res) ->
+        assert.isNotNull res
+
+    "WHEN testing getActionFn for apps list" :
+      topic: () ->
+        cmdLoader.getActionFn("apps","list",@callback)
+        return
+      "THEN it should not err": (err,res) ->
+        assert.isNull err
+      "THEN it should return a function": (err,res) ->
+        assert.isNotNull res
+    "WHEN testing getActionFn for orgs list" :
+      topic: () ->
+        cmdLoader.getActionFn("orgs","list",@callback)
+        return
+      "THEN it should not err": (err,res) ->
+        assert.isNull err
+      "THEN it should return a function": (err,res) ->
+        assert.isNotNull res
         
   .export module

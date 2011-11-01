@@ -67,23 +67,30 @@ class exports.ArgumentResolver
     
     if @args[0] == "help"
       @isHelp = true
+      @args = @args.splice(1)
+      
+    return if @isHelp && @args.length == 0    
+    # At this point @args starts with a resource that is not help
     
     if @loader.isResource(@args[0])
+      @resource = @args[0]
+      @params = if @args.length > 1 then @args.slice(1) else []
+      
       #winston.info " IS A RESOURCE"
       if @args.length > 1 && @loader.isActionForResource(@args[0],@args[1])
-        action = @args[1]
+        @action = @args[1] if @args[1]  
         @params = if @args.length > 2 then @args.slice(2) else []
         
       else
-        action = @loader.defaultActionForResource(@args[0])
+        @action = @loader.defaultActionForResource(@args[0]) unless @isHelp
     else
       # first parameter is an action.
-      resource = @loader.resourceforAction(@args[0])
-      action = @args[0]
+      @resource = @loader.resourceforAction(@args[0])
+      @action = @args[0]
       
     #winston.info "RESOURCE #{resource} ACTION #{action}"
     # At this point we need to have 
-    if resource == null || action == null
+    if !@isHelp && (@resource == null || @action == null)
       @isValid = false
       @errorMsg =  "Command not found. Try " + "scotty help".cyan.bold
       return

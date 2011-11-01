@@ -61,11 +61,31 @@ vows.describe("argument_resolver")
         return new ArgumentResolver(["help"],cmdLoader)
       "THEN it should be marked as help": (resolver) ->
         assert.isTrue resolver.isHelp
+      "THEN it's resource should be null": (resolver) ->
+        assert.isNull resolver.resource
+      "THEN it's action should be null": (resolver) ->
+        assert.isNull resolver.action
+      "THEN it's error message should be an empty string": (resolver) ->
+        assert.equal resolver.errorMsg, ""
+      "THEN it should be marked as valid": (resolver) ->
+        assert.isTrue resolver.isValid
+      "THEN it's params should have a length 0": (resolver) ->
+        assert.equal resolver.params.length,0
     "WHEN resolving an empty argument list with a help and a resource" :
       topic: ->        
         return new ArgumentResolver(["help","apps"],cmdLoader)
       "THEN it should be marked as help": (resolver) ->
         assert.isTrue resolver.isHelp
+      "THEN it's resource should be apps": (resolver) ->
+        assert.equal resolver.resource,"apps"
+      "THEN it's action should be null": (resolver) ->
+        assert.isNull resolver.action
+      "THEN it's error message should be an empty string": (resolver) ->
+        assert.equal resolver.errorMsg, ""
+      "THEN it should be marked as valid": (resolver) ->
+        assert.isTrue resolver.isValid
+      "THEN it's params should have a length 0": (resolver) ->
+        assert.equal resolver.params.length,0
     "WHEN resolving an empty argument list with a help and a resource and an action" :
       topic: ->        
         return new ArgumentResolver(["help","apps","create"],cmdLoader)

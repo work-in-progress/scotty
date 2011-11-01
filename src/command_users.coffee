@@ -76,7 +76,7 @@ class exports.Commands
             @client.setAccessToken result.access_token
             @config.set result.access_token,resultA.username, =>
               winston.info "Logged in " + "successfully".cyan.bold
-              cb null
+            cb null
     
   changepassword: (args,cb) =>
     cb(null)

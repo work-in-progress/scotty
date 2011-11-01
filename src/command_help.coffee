@@ -57,8 +57,9 @@ class exports.Commands
       ''
 
       'Additional Commands'.cyan.bold.underline
-      '  scotty apps'
-      '  scotty users'
+      '  scotty help apps'
+      '  scotty help users'
+      '  scotty help orgs'
       ''
       'scotty options'.cyan.bold.underline
       ''

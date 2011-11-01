@@ -1,5 +1,6 @@
 nconf = require 'nconf'
 path = require 'path'
+_ = require "underscore"
 
 class Config
   constructor: () ->
@@ -11,7 +12,20 @@ class Config
       err = null # Ignore file not found, and don't care about the rest
       cb(err)
 
+  commands: [
+    'command_help',
+    'command_apps',
+    'command_users',
+    'command_orgs']
 
+  ###*
+    Returns a list of commands, with the path adjused 
+    based on the prefix path, which defaults to ./
+  ###
+  commandsForPath:(path = "./") =>
+    _.map @commands, (item) -> "#{path}#{item}"
+    
+    
   ###*
   Those are the official keys for the scotty app. 
   DO NOT USE THEM IN YOUR OWN APPS, generate your own at 

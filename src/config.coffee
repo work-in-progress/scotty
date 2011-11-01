@@ -12,6 +12,9 @@ class Config
       err = null # Ignore file not found, and don't care about the rest
       cb(err)
 
+  ###*
+  List of command files used by scotty. This is the canonical place for it.
+  ###
   commands: [
     'command_help',
     'command_apps',

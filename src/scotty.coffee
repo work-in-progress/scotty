@@ -33,10 +33,6 @@ class exports.ScottyApp
     @prompt.override   = require('optimist').argv;
     
   start: (argv, cb) ->
-    @command = argv._;
-    
-    @loader.load(['./command_help','./command_apps','./command_users','./command_orgs'],@prompt,@config,@client)
-    
     ### 
     Special -v command for showing current version without winston formatting
     ###
@@ -45,18 +41,21 @@ class exports.ScottyApp
         process.exit(0);
 
     @prompt.start().pause();
-
-    # Default to the `help` command.
-    @command[0] = @command[0] || 'help'
-    args = if @command.length > 1 then @command.slice(1) else []
     
     @config.load (err) =>
-      @client.setAccessToken @config.getAccessToken()
-      
       return cb(err) if err?
-      
+
+      @client.setAccessToken @config.getAccessToken()
+            
       utils.checkVersion (err) =>
         return cb(err) if err?
+
+        @loader.load(@config.commandsForPath(),@prompt,@config,@client)
+
+        @command = argv._;    
+        # Default to the `help` command.
+        @command[0] = @command[0] || 'help'
+        args = if @command.length > 1 then @command.slice(1) else []
 
         resource = @command[0]
         action = null

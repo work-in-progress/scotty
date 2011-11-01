@@ -71,12 +71,14 @@ class exports.ArgumentResolver
       
     return if @isHelp && @args.length == 0    
     # At this point @args starts with a resource that is not help
-    
+
+
     if @loader.isResource(@args[0])
       @resource = @args[0]
       @params = if @args.length > 1 then @args.slice(1) else []
       
       #winston.info " IS A RESOURCE"
+      console.log @args
       if @args.length > 1 && @loader.isActionForResource(@args[0],@args[1])
         @action = @args[1] if @args[1]  
         @params = if @args.length > 2 then @args.slice(2) else []

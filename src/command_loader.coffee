@@ -7,6 +7,7 @@ needs some love and improvement.
 ###
 class exports.CommandLoader
   resourceNames: {}
+  commands: {}
   
   addCommand: (cmd,action,name) =>
     @commands[name] = 
@@ -28,7 +29,7 @@ class exports.CommandLoader
     if @commands[resourceName] then @commands[resourceName].action else null
     
   isActionForResource: (resourceName,actionName) =>
-    @commands[resourceName] && @commands[resourceName].resource.actions[actionName]
+    !!(@commands[resourceName] && @commands[resourceName].resource.actions[actionName])
   
   nameFrom:(resourceName,actionName) =>
     "#{resourceName}-#{actionName}"

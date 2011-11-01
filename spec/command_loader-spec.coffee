@@ -10,7 +10,6 @@ prompt = "A"
 config = "B"
 client = "C"
 cmdLoader = new (require('../lib/command_loader').CommandLoader)()
-cmdLoader.load(main.config.commandsForPath("../lib/"),prompt,config,client)
 
 ###
 
@@ -41,6 +40,52 @@ vows.describe("command_loader")
       "THEN IT SHOULD BE SET UP :)": () ->
         assert.isTrue true        
   .addBatch
+    "WHEN loading the default commands" :
+      topic: () ->
+        cmdLoader.load(main.config.commandsForPath("../lib/"),prompt,config,client)
+        return true
+      "THEN a resource help should exist": (res) ->
+        assert.isTrue cmdLoader.isResource('help')
+      "THEN a resource apps should exist": (res) ->
+        assert.isTrue cmdLoader.isResource('apps')
+      "THEN a resource users should exist": (res) ->
+        assert.isTrue cmdLoader.isResource('users')
+      "THEN a resource orgs should exist": (res) ->
+        assert.isTrue cmdLoader.isResource('orgs')
+      "THEN a command with blank help should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['help']
+      "THEN a command with blank apps should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['apps']
+      "THEN a command with blank users should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['users']
+      "THEN a command with blank orgs should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['orgs']
+      "THEN a command with help-show should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['help-show']
+      "THEN a command with apps-list should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['apps-list']
+      "THEN a command with apps-create should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['apps-create']
+      "THEN a command with apps-delete should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['apps-delete']
+      "THEN a command with orgs-list should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['orgs-list']
+      "THEN a command with orgs-create should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['orgs-create']
+      "THEN a command with orgs-delete should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['orgs-delete']
+      "THEN a command with users-signin should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['users-signup']
+      "THEN a command with users-login should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['users-login']
+      "THEN a command with users-logout should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['users-logout']
+      "THEN a command with users-changepassword should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['users-changepassword']
+      "THEN a command with users-redeem should exist": (res) ->
+        assert.isNotNull cmdLoader.commands['users-redeem']
+
+
     "WHEN dealing with a valid action only" :
       topic: () ->
         return cmdLoader.hasAction("create")
@@ -51,4 +96,9 @@ vows.describe("command_loader")
         return cmdLoader.hasAction("frodo")
       "THEN it should be true": (res) ->
         assert.isFalse res
+    "WHEN testing isActionForResource" :
+      topic: () ->
+        return cmdLoader.isActionForResource("apps","create")
+      "THEN it should be true": (res) ->
+        assert.isTrue res
   .export module

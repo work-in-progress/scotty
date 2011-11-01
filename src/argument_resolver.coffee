@@ -102,6 +102,9 @@ class exports.ArgumentResolver
         @isAmbiguous = true
         @ambiguousResources = @loader.ambiguousResourcesForAction(@args[0])
         # set ambigous array to true
+        
+        if @isAmbiguous
+          @isHelp = true
       else
         # first parameter is an action.
         @resource = @loader.resourceforAction(@args[0])

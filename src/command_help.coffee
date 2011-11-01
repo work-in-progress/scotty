@@ -68,12 +68,10 @@ class exports.Commands
       '--version             print scotty version and exit'] 
     'show' : []
 
-  show: (args,cb) =>
-
-    usage = 'help'
-    if args.length > 0 && @loader.hasAction(args[0])
-      usage = args[0]
-
+  show: (argumentResolver,cb) =>
+    usage = argumentResolver.action
+    usage = 'help' unless usage
+    
     @loader.getActionUsage usage, (err,usageResult) =>
       if err
         winston.help "Command #{usage} not found. Try scotty help."

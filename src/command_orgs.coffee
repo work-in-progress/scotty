@@ -31,8 +31,8 @@ class exports.Commands
       'then all organizations belonging to the logged in user.'
       ]
 
-  create: (args,cb) =>
-    organizationName = args[1]
+  create: (argumentResolver,cb) =>
+    organizationName = argumentResolver.params[0]
     puts organizationName
     @client.createOrganization organizationName,{}, (err,result) =>
       if err
@@ -42,11 +42,11 @@ class exports.Commands
         winston.info "Successfully ".cyan + "created organization #{result.name}"
         cb null
 
-  delete: (args,cb) =>
+  delete: (argumentResolver,cb) =>
     cb(null)
 
-  list: (args,cb) =>
-    userName = args[1] || @config.getUserName()
+  list: (argumentResolver,cb) =>
+    userName = argumentResolver.params[0] || @config.getUserName()
     @client.organizationsForUser userName, (err,result) =>
       if err
         winston.error "Login failed"

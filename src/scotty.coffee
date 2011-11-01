@@ -52,6 +52,27 @@ class exports.ScottyApp
 
         @loader.load(@config.commandsForPath(),@prompt,@config,@client)
 
+        argumentResolver = new ArgumentResolver(argv._, @loader)
+
+        resource = argumentResolver.resource
+        action = argumentResolver.action
+
+        if argumentResolver.isHelp
+          resource = "help"
+          action = "show"
+        
+        if argumentResolver.isValid
+          @loader.getActionFn resource,action, (err,actionFn) =>
+            if err
+              winston.error "Command not found. Try " + "scotty help".cyan.bold
+            else
+              actionFn argumentResolver,=>
+                #winston.info ""
+        else
+          winston.error "Command not found. Try " + "scotty help".cyan.bold
+        
+
+###
         @command = argv._;    
         # Default to the `help` command.
         @command[0] = @command[0] || 'help'
@@ -78,13 +99,15 @@ class exports.ScottyApp
         if resource == null || action == null
           winston.error "Command not found. Try " + "scotty help".cyan.bold
           return
-          
-      
+
         @loader.getActionFn resource,action, (err,actionFn) =>
           if err
             winston.error "Command not found. Try " + "scotty help".cyan.bold
           else
             actionFn args,=>
               #winston.info ""
+
+###          
+      
             
           

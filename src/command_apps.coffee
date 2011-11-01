@@ -25,14 +25,14 @@ class exports.Commands
       'organization named after his user id uppon account creation.'      
       ]
 
-  create: (args,cb) =>
+  create: (argumentResolver,cb) =>
     cb(null)
 
-  delete: (args,cb) =>
+  delete: (argumentResolver,cb) =>
     cb(null)
 
-  list: (args,cb) =>
-    organizationName = args[1] || @config.getUserName()
+  list: (argumentResolver,cb) =>
+    organizationName = argumentResolver.params[0] || @config.getUserName()
     @client.appsForOrganization organizationName, (err,result) =>
       if err
         winston.error "Login failed"

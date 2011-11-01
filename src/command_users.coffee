@@ -56,16 +56,16 @@ class exports.Commands
       ]
     
   
-  create: (args,cb) =>
+  signup: (argumentResolver,cb) =>
     cb(null)
     
-  logout: (args,cb) =>
+  logout: (argumentResolver,cb) =>
     @client.setAccessToken null
     @config.set null,null, =>
       winston.info "Logged out "+ "successfully".cyan.bold
       cb null
   
-  login: (args,cb) =>
+  login: (argumentResolver,cb) =>
     @prompt.get 'username', (err, resultA) =>
       @prompt.get 'password', (err, resultB) =>
         @client.authenticate resultA.username,resultB.password, (err,result) =>
@@ -78,9 +78,9 @@ class exports.Commands
               winston.info "Logged in " + "successfully".cyan.bold
             cb null
     
-  changepassword: (args,cb) =>
+  changepassword: (argumentResolver,cb) =>
     cb(null)
   
-  redeem: (args,cb) =>
+  redeem: (argumentResolver,cb) =>
     cb(null)
     

@@ -1,17 +1,7 @@
 ## todo for 0.0.1
 
-* default ops for apps, users?
-* handle action call
-
-* handle authentication error => PRompt for login
-* help on actions
-* resend password (api and all)
-* organizations
-
-* signup
-* beta key
-* login
-* logout
-* help
-* info screen
-* tests
+* Server side: ensure that password change works
+* Server side: ensure that inviteCode works
+* client side: Validate all inputs with regex (prompt)
+* client side: ask for missing fields
+* client side: show good error messages

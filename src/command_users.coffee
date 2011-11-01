@@ -17,7 +17,7 @@ class exports.Commands
       'Usage:'.cyan.bold.underline,
       ''
       '  scotty signup'
-      '  scotty signup <username> <password> <email>'
+#      '  scotty signup <username> <password> <email>'
       ''
       'Creates a new user within scottyapp.com. You can also create a'
       'user directly on http://scottyapp.com'      
@@ -26,7 +26,7 @@ class exports.Commands
       'Usage:'.cyan.bold.underline,
       ''
       '  scotty login'
-      '  scotty login <username> <password>'
+#      '  scotty login <username> <password>'
       ''
       'Attempts to log you in. When successful, stores the access token'
       'in .scottyconf.json. As of now this is stored in the current directory.'
@@ -57,7 +57,16 @@ class exports.Commands
     
   
   signup: (argumentResolver,cb) =>
-    cb(null)
+    @prompt.get 'username', (err, resultA) =>
+      @prompt.get 'password', (err, resultB) =>
+        @prompt.get 'email', (err, resultC) =>
+          @client.createUser resultA.username,resultB.password,resultC.email, (err,result) =>
+            if err
+              winston.error "Signup failed. Make sure that your user name is at least 4 chars and your password at least 6 chars long #{err}. You can always signup at http://scottyapp.com"
+              cb(err)
+            else
+              winston.info "Signed up " + "successfully".cyan.bold
+              cb null
     
   logout: (argumentResolver,cb) =>
     @client.setAccessToken null
@@ -79,8 +88,22 @@ class exports.Commands
             cb null
     
   changepassword: (argumentResolver,cb) =>
-    cb(null)
+    @prompt.get 'password', (err, resultB) =>
+        @client.updateMe password : resultB.password,(err,result) =>
+          if err
+            winston.error "Password change failed #{err}."
+            cb(err)
+          else
+            winston.info "Password changed successfully" + "successfully".cyan.bold
+            cb null
   
   redeem: (argumentResolver,cb) =>
-    cb(null)
+    @prompt.get 'inviteCode', (err, resultB) =>
+        @client.updateMe inviteCode : resultB.inviteCode,(err,result) =>
+          if err
+            winston.error "Sorry but that invitation code did not work. Pleae contact info@scottyapp.com so that we can fix this. #{err}."
+            cb(err)
+          else
+            winston.info "Your account has been " + "activated".cyan.bold
+            cb null
     

@@ -60,7 +60,20 @@ class exports.Commands
 
 
   delete: (argumentResolver,cb) =>
-    cb(null)
+    appName = argumentResolver.params[0]
+    organizationName = @config.getUserName()
+    
+    if argumentResolver.params.length > 1
+      organizationName = argumentResolver.params[0]
+      appName = argumentResolver.params[1]
+
+    @client.deleteApp organizationName,appName, (err,result) =>
+      if err
+        winston.error "Could not delete app #{err}"
+        cb(err)
+      else
+        winston.info "Successfully ".cyan + "deleted app #{organizationName}/#{appName}"
+        cb null
 
   list: (argumentResolver,cb) =>
     organizationName = argumentResolver.params[0] || @config.getUserName()

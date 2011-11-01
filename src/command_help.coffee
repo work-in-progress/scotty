@@ -70,14 +70,33 @@ class exports.Commands
 
   show: (argumentResolver,cb) =>
     usage = argumentResolver.action
-    usage = 'help' unless usage
-    
-    @loader.getActionUsage usage, (err,usageResult) =>
-      if err
-        winston.help "Command #{usage} not found. Try scotty help."
-        cb err
-      else      
-        winston.help ''
-        winston.help l for l in usageResult
-        winston.help ''
-        cb null
+      
+    if argumentResolver.isAmbiguous
+      winston.help "Command #{usage} is ambiguous. Please specify one of the following:"
+      for resource in argumentResolver.ambiguousResources 
+        winston.help "scotty help #{resource.cyan} #{usage}"
+    else if argumentResolver.resource && !argumentResolver.action
+      @loader.getResourceUsage argumentResolver.resource, (err,usageResult) =>
+        if err
+          winston.help "Command #{usage} not found. Try scotty help."
+          cb err
+        else      
+          winston.help ''
+          winston.help l for l in usageResult
+          winston.help ''
+          cb null
+      
+    else
+      usage = 'help' unless usage
+
+      @loader.getActionUsage usage, (err,usageResult) =>
+        if err
+          winston.help "Command #{usage} not found. Try scotty help."
+          cb err
+        else      
+          winston.help ''
+          winston.help l for l in usageResult
+          winston.help ''
+          cb null
+          
+          

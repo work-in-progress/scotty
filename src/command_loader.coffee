@@ -89,3 +89,17 @@ class exports.CommandLoader
     return cb(new Error("Action #{actionName} not found.")) unless action
     cb(null,action.usage)
     
+    
+  getResourceUsage: (resourceName,cb) =>
+    cmd = @commands[resourceName]
+    return cb(new Error("Resource #{resourceName} not found.")) unless cmd
+
+    res = []
+    
+    _.each cmd.resource.usage,(value) =>
+      for item in value
+        res.push(item)
+      res.push ""
+    cb(null,res)
+  
+    

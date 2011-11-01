@@ -84,7 +84,12 @@ vows.describe("command_loader")
         assert.isNotNull cmdLoader.commands['users-changepassword']
       "THEN a command with users-redeem should exist": (res) ->
         assert.isNotNull cmdLoader.commands['users-redeem']
-
+      "THEN a command with list should exist but have the value DONOTCALL": (res) ->
+        assert.equal cmdLoader.commands['list'],"DONOTCALL"
+      "THEN a command with create should exist but have the value DONOTCALL": (res) ->
+        assert.equal cmdLoader.commands['create'],"DONOTCALL"
+      "THEN a command with delete should exist but have the value DONOTCALL": (res) ->
+        assert.equal cmdLoader.commands['delete'],"DONOTCALL"
 
     "WHEN dealing with a valid action only" :
       topic: () ->
@@ -101,4 +106,16 @@ vows.describe("command_loader")
         return cmdLoader.isActionForResource("apps","create")
       "THEN it should be true": (res) ->
         assert.isTrue res
+    "WHEN testing isAmbiguousAction" :
+      topic: () ->
+        return true
+      "THEN it create should result in true": (res) ->
+        assert.isTrue cmdLoader.isAmbiguousAction("create")
+      "THEN it delete should result in true": (res) ->
+        assert.isTrue cmdLoader.isAmbiguousAction("delete")
+      "THEN it list should result in true": (res) ->
+        assert.isTrue cmdLoader.isAmbiguousAction("list")
+      "THEN it signup should result in true": (res) ->
+        assert.isFalse cmdLoader.isAmbiguousAction("signup")
+        
   .export module

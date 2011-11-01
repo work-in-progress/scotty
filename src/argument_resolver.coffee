@@ -51,6 +51,16 @@ class exports.ArgumentResolver
   errorMsg: ""
   
   ###*
+  True if an action is passed without a resource and could have multiple meanings.
+  ###
+  isAmbiguous : false
+
+  ###* 
+  An array of resources that would match the action returned.
+  ###
+  ambiguousResources : []
+
+  ###*
   Initializes a new instance of @see ArgumentResolver
   @param {String[]}  args the arguments as taken from the command line
   @param {CommandLoader} loader the loader object used to resolve commands
@@ -86,9 +96,18 @@ class exports.ArgumentResolver
       else
         @action = @loader.defaultActionForResource(@args[0]) unless @isHelp
     else
-      # first parameter is an action.
-      @resource = @loader.resourceforAction(@args[0])
-      @action = @args[0]
+      if @loader.isAmbiguousAction(@args[0])
+        @resource = null
+        @action = @args[0]
+        @isAmbiguous = true
+        @ambiguousResources = @loader.ambiguousResourcesForAction(@args[0])
+        # set ambigous array to true
+      else
+        # first parameter is an action.
+        @resource = @loader.resourceforAction(@args[0])
+        @action = @args[0]
+      @params = if @args.length > 1 then @args.slice(1) else []
+      
       
     #winston.info "RESOURCE #{resource} ACTION #{action}"
     # At this point we need to have 

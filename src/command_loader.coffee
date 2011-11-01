@@ -1,5 +1,6 @@
 colors = require 'colors'
 winston = require 'winston'
+_ = require "underscore"
 
 ###*
 Loads the commands and makes them available. Is a bit of a mess right now, 
@@ -24,6 +25,13 @@ class exports.CommandLoader
     return null if res == "DONOTCALL"
     return null unless res
     res.resourceName
+    
+  isAmbiguousAction: (actionName) =>
+    @commands[actionName] == "DONOTCALL"
+    
+  ambiguousResourcesForAction: (actionName) =>
+    _.select @resourceNames, (resource) => 
+      @isActionForResource(resource,actionName)
     
   defaultActionForResource: (resourceName) =>
     if @commands[resourceName] then @commands[resourceName].action else null

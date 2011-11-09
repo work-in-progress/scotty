@@ -36,6 +36,7 @@ and like us on Facebook please. Every mention is welcome and we follow back.
 
 # Publish new version
 
+* ENSURE THAT THE TESTS PASS
 * Change version in package.json
 * git tag -a v0.0.1 -m 'version 0.0.1'
 * git push --tags

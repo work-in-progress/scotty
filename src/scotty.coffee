@@ -25,9 +25,10 @@ class exports.ScottyApp
   
   constructor: () ->
     @client = new ScottyAppClient(@config.key,@config.secret)
-    @client.baseUrl = "http://192.168.1.101:3000"
-    @client.key = "4e36836cc2db1951a1000002"
-    @client.secret = "2d61f8d3d660357bdbcb5dd42d91835fb2987dd16e8b5d18453c56699db782bf"
+    # THe bottom ones are used for internal testing
+    #@client.baseUrl = "http://192.168.1.101:3000"
+    #@client.key = "4e36836cc2db1951a1000002"
+    #@client.secret = "2d61f8d3d660357bdbcb5dd42d91835fb2987dd16e8b5d18453c56699db782bf"
     
     @prompt.properties = require('./prompt_properties').properties;
     @prompt.override   = require('optimist').argv;
